@@ -2,7 +2,7 @@ import os
 import time
 import cv2
 import face_recognition as FR
-trainingFile = 'fileSystenFaceRec\storedFaces'
+trainingFile = 'storedFaces'
 knownEncodings = []
 knownNames = []
 startQuestion = "Enter Key: "
@@ -11,7 +11,7 @@ font = cv2.FONT_HERSHEY_SIMPLEX
 cameraWidth = 640
 cameraHeight = 320
 window = " "
-faceCascade = cv2.CascadeClassifier("fileSystenFaceRec\haar\haarcascade_frontalface_default.xml")
+faceCascade = cv2.CascadeClassifier("haar/haarcascade_frontalface_default.xml")
 
 def trainFaces(path,knownFaces,knownNames):
     for root,directories,files in os.walk(path):
@@ -78,7 +78,7 @@ if startInput == startKey:
       pressedKey = cv2.waitKey(1) & 0xFF
       ## camera loop for inspection,detect face in roi and take img of face,store img of face in filesytem with name,train on face in running program
       if pressedKey == ord('i'):
-        print("Inspecting...")
+        print("Inspecting...")    
         waitTime = 3
         while True:
               startTime = time.time()   
@@ -97,11 +97,11 @@ if startInput == startKey:
                   if waitTime <= 0:                        
                     name = input("Faces name: ")
                     if name == "breakQ":
-                          break
-                    face = FR.face_encodings(frameRoi)[0]
+                          break 
+                    frameRoiRGB = cv2.cvtColor(frameRoi,cv2.COLOR_BGR2RGB)
+                    face = FR.face_encodings(frameRoiRGB)[0]
                     knownEncodings.append(face)
                     knownNames.append(name)
-
                     cv2.imwrite(os.path.join(trainingFile, name + '.jpg'), frameRoi)
                     break
                   cv2.putText(frame,str(int(waitTime)),(0,25),font,1,(0,0,255),1) 
