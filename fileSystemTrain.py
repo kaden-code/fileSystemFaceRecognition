@@ -21,7 +21,6 @@ def trainFaces(path,knownFaces,knownNames):
          name=os.path.splitext(file)[0]
          print("Training On ",name,"...")
          myPicture =FR.load_image_file(fullFilePath)
-         myPicture = cv2.cvtColor(myPicture,cv2.COLOR_RGB2BGR)
          face = FR.face_encodings(myPicture)[0]
          knownFaces.append(face)
          knownNames.append(name)
